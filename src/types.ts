@@ -11,27 +11,27 @@ export interface UserDetails {
 }
 
 export interface Product {
-    id: string
-    active?: boolean
-    name?: string
-    description?: string
-    image?: string
-    metadata?: Stripe.Metadata
+  id: string;
+  active?: boolean;
+  name?: string;
+  description?: string;
+  image?: string;
+  metadata?: Stripe.Metadata;
 }
 
 export interface Price {
-    id:string
-    product_id?: string
-    active?: boolean
-    description?: string
-    unit_amount?: number
-    currency?: string
-    type?: Stripe.Price.Type
-    interval?: Stripe.Price.Recurring.Interval
-    interval_count?: number
-    trial_period_days?: number | null
-    metadata?: Stripe.Metadata
-    products?: Product
+  id: string;
+  product_id?: string;
+  active?: boolean;
+  description?: string;
+  unit_amount?: number;
+  currency?: string;
+  type?: Stripe.Price.Type;
+  interval?: Stripe.Price.Recurring.Interval;
+  interval_count?: number;
+  trial_period_days?: number | null;
+  metadata?: Stripe.Metadata;
+  products?: Product;
 }
 
 export interface Subscription {
@@ -40,7 +40,7 @@ export interface Subscription {
   status?: Stripe.Subscription.Status;
   metadata?: Stripe.Metadata;
   price_id?: string;
-  quantity?: string;
+  quantity?: number;
   cancel_at_period_end?: boolean;
   created: string;
   current_period_start: string;
@@ -48,8 +48,7 @@ export interface Subscription {
   ended_at?: string;
   cancel_at?: string;
   canceled_at?: string;
-  trial_start?: string
-  trial_end?: string
-  prices?: Price
+  trial_start?: string;
+  trial_end?: string;
+  prices?: Price;
 }
-
