@@ -2,12 +2,20 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import { TbPlaylist } from "react-icons/tb";
 import { FC } from "react";
+import useAuthModal from "@/hooks/useAuthModal";
+import { useUser } from "@/hooks/useUser";
 
 interface LibraryProps {}
 
 const Library: FC<LibraryProps> = ({}) => {
   // handle upload later
-  const onClick = () => {};
+  const authModal = useAuthModal();
+  const { user } = useUser();
+
+  const onClick = () => {
+    if (!user) return authModal.onOpen();
+    
+  };
 
   return (
     <div className="flex flex-col">
@@ -22,9 +30,7 @@ const Library: FC<LibraryProps> = ({}) => {
           className="text-neutral-400 cursor-pointer hover:text-white transition"
         />
       </div>
-      <div className="flex flex-col gap-y-2 mt-4 px-3">
-        List of Songs!
-      </div>
+      <div className="flex flex-col gap-y-2 mt-4 px-3">List of Songs!</div>
     </div>
   );
 };
