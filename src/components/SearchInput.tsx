@@ -5,6 +5,8 @@ interface SearchInputProps {
 }
 
 const SearchInput: FC<SearchInputProps> = ({}) => {
+    
+
     return <div>SearchInput</div>
 }
 
