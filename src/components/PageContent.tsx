@@ -1,6 +1,7 @@
 "use client";
 import { Song } from "@/types";
 import { FC } from "react";
+import SongItem from "./SongItem";
 
 interface PageContentProps {
   songs: Song[];
