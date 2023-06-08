@@ -1,21 +1,48 @@
 "use client";
 
 import { Song } from "@/types";
-import { FC } from "react";
+import { FC, useState } from "react";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
 import Slider from "./Slider";
+import usePlayer from "@/hooks/userPlayer";
 interface PlayerContentProps {
   song: Song;
   songUrl: string;
 }
 
 const PlayerContent: FC<PlayerContentProps> = ({ song, songUrl }) => {
-  const Icon = false ? BsPauseFill : BsPlayFill;
-  const VolumeIcon = true ? HiSpeakerXMark : HiSpeakerWave;
+  const player = usePlayer();
+  const [volume, setVolue] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const Icon = isPlaying ? BsPauseFill : BsPlayFill;
+  const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
+
+  const onPlayNext = () => {
+    if (player.ids.length === 0) return;
+
+    const currentIndex = player.ids.findIndex((id) => id === player.activeId);
+    const nextSong = player.ids[currentIndex + 1];
+
+    // last song in array so reset to first song
+    if (!nextSong) return player.setId(player.ids[0]);
+    player.setId(nextSong);
+  };
+  const onPlayPrevious = () => {
+    if (player.ids.length === 0) return;
+
+    const currentIndex = player.ids.findIndex((id) => id === player.activeId);
+    const previous = player.ids[currentIndex - 1];
+
+    // first song in array so reset to last song
+    if (!previous) return player.setId(player.ids[player.ids.length - 1]);
+    player.setId(previous);
+  };
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 h-full">
       <div className="flex w-full justify-start">
@@ -39,7 +66,7 @@ const PlayerContent: FC<PlayerContentProps> = ({ song, songUrl }) => {
         <AiFillStepBackward
           size={30}
           className="text-neutral-400 cursor-pointer hover:text-white transition"
-          onClick={() => {}}
+          onClick={onPlayPrevious}
         />
         <div
           onClick={() => {}}
@@ -50,13 +77,13 @@ const PlayerContent: FC<PlayerContentProps> = ({ song, songUrl }) => {
         <AiFillStepForward
           size={30}
           className="text-neutral-400 cursor-pointer hover:text-white transition"
-          onClick={() => {}}
+          onClick={onPlayNext}
         />
       </div>
 
       <div className="hidden md:flex w-full justify-end pr-2">
         <div className="flex items-center gap-x-2 w-[120px]">
-          <VolumeIcon onClick={() => {}} className="cursor-pointer" size={34}/>
+          <VolumeIcon onClick={() => {}} className="cursor-pointer" size={34} />
 
           <Slider />
         </div>
