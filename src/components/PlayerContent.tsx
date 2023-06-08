@@ -1,7 +1,7 @@
 "use client";
 
 import { Song } from "@/types";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
@@ -9,6 +9,7 @@ import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
 import Slider from "./Slider";
 import usePlayer from "@/hooks/userPlayer";
+import useSound from "use-sound";
 interface PlayerContentProps {
   song: Song;
   songUrl: string;
@@ -16,7 +17,7 @@ interface PlayerContentProps {
 
 const PlayerContent: FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
-  const [volume, setVolue] = useState(1);
+  const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
@@ -43,6 +44,35 @@ const PlayerContent: FC<PlayerContentProps> = ({ song, songUrl }) => {
     player.setId(previous);
   };
 
+  const [play, { pause, sound }] = useSound(songUrl, {
+    volume: volume,
+    onplay: () => setIsPlaying(true),
+    onend: () => {
+      setIsPlaying(false);
+      onPlayNext();
+    },
+    onpause: () => setIsPlaying(false),
+    format: ["mp3"],
+  });
+
+  useEffect(() => {
+    sound?.play();
+
+    return () => {
+      sound?.unload();
+    };
+  }, [sound]);
+
+  const handlePlay = () => {
+    if (!isPlaying) play();
+    else pause();
+  };
+
+  const toggleMute = () => {
+    if (volume === 0) setVolume(1);
+    else setVolume(0);
+  };
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 h-full">
       <div className="flex w-full justify-start">
@@ -54,7 +84,7 @@ const PlayerContent: FC<PlayerContentProps> = ({ song, songUrl }) => {
       {/** mobile view button, hidden on md+ devices */}
       <div className="flex md:hidden col-auto w-full justify-end items-center">
         <div
-          onClick={() => {}}
+          onClick={handlePlay}
           className="h-10 w-10 flex items-center justify-center rounded-full bg-white p-1 cursor-pointer"
         >
           <Icon size={30} className="text-black" />
@@ -69,7 +99,7 @@ const PlayerContent: FC<PlayerContentProps> = ({ song, songUrl }) => {
           onClick={onPlayPrevious}
         />
         <div
-          onClick={() => {}}
+          onClick={handlePlay}
           className="flex items-center justify-center h-10 w-10 rounded-full bg-white p-1 cursor-pointer"
         >
           <Icon size={30} className="text-black" />
@@ -83,9 +113,13 @@ const PlayerContent: FC<PlayerContentProps> = ({ song, songUrl }) => {
 
       <div className="hidden md:flex w-full justify-end pr-2">
         <div className="flex items-center gap-x-2 w-[120px]">
-          <VolumeIcon onClick={() => {}} className="cursor-pointer" size={34} />
+          <VolumeIcon
+            onClick={toggleMute}
+            className="cursor-pointer"
+            size={34}
+          />
 
-          <Slider />
+          <Slider value={volume} onChange={(value) => setVolume(value)} />
         </div>
       </div>
     </div>
