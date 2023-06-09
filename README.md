@@ -13,32 +13,32 @@ Try the clone [here](https://spotify-clone-mckaymower.vercel.app/)
 
 ### Authentication Modal using Supabase
 
-![Auth Modal](/readme_images/LoginModal.png)
+![Auth Modal](/readme_images/LoginModal.PNG)
 
 ### Dashboard similar to spotify
 
-![Dashboard](/readme_images/Dashboard.png)
+![Dashboard](/readme_images/Dashboard.PNG)
 
 ### Add songs
 
-![Upload](/readme_images/Uploading.png)
+![Upload](/readme_images/Uploading.PNG)
 
 ### Real time updates after adding
 
-![Post-Upload Dashboard](/readme_images/DashboardAfterUpload.png)
+![Post-Upload Dashboard](/readme_images/DashboardAfterUpload.PNG)
 
 ### Favorite songs
 
-![Favorites](/readme_images/LikedSongs.png)
+![Favorites](/readme_images/LikedSongs.PNG)
 
 ### Search algorithm for songs
 
-![Search](/readme_images/Search.png)
+![Search](/readme_images/Search.PNG)
 
 ### Subscription blocks
 
-![Subscription Blocks](/readme_images/SubscriptionBlockedFeature.png)
+![Subscription Blocks](/readme_images/SubscriptionBlockedFeature.PNG)
 
 ### Working Stripe integration
 
-![Stripe](/readme_images/StripeIntegration.png)
+![Stripe](/readme_images/StripeIntegration.PNG)
