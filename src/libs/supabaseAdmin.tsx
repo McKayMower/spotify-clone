@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 
-import { Database } from "@/types_db";
+import { Database } from "../../types_db";
 import { Price, Product } from "@/types";
 
 import { stripe } from "./stripe";
@@ -62,7 +62,6 @@ const createOrRetrieveCustomer = async ({
     .eq("id", uuid)
     .single();
 
-
   if (error || !data?.stripe_customer_id) {
     const customerData: { metadata: { supabaseUUID: string }; email?: string } =
       {
@@ -108,11 +107,12 @@ const manageSubscriptionStatusChange = async (
   createAction = false
 ) => {
   // Get customer's UUID from mapping table.
-  const { data: customerData, error: customerNotFoundError } = await supabaseAdmin
-    .from("customers")
-    .select("id")
-    .eq("stripe_customer_id", customerId)
-    .single();
+  const { data: customerData, error: customerNotFoundError } =
+    await supabaseAdmin
+      .from("customers")
+      .select("id")
+      .eq("stripe_customer_id", customerId)
+      .single();
   if (customerNotFoundError) throw customerNotFoundError;
 
   const { id: uuid } = customerData!;
